@@ -1,7 +1,7 @@
 
  
 # Amiibo RESTful API
-
+ 
 ### :warning: I'll no longer be developing new features due to personal commitments, rest assured that amiibo data updates and maintenance will continue. If you have exciting ideas or improvements, please feel free to submit a pull request.
 
 
