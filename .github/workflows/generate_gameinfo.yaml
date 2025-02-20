@@ -1,30 +1,28 @@
 name: Generate game info
 
 on:
-  push:
-    branches: [dev]
   workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
 
 jobs:
+  get_info:
+    uses: DanTheMan827/.github/workflows/game_info.yml@main
+
   report:
     runs-on: windows-latest
+    needs: [get_info]
+    permissions:
+      contents: write
+      
     steps:
-      - uses: actions/checkout@v2
-      - name: Copy amiibo.json to gameinfo_generator
-        run: |
-          copy-item database/amiibo.json gameinfo_generator
-        shell: powershell
+      - uses: actions/checkout@v4
 
-      - name: Run game_info generator
-        working-directory: ./gameinfo_generator
-        run: |
-          AmiiboGameList.exe -log 0
-        shell: cmd
-
-      - name: Copy games_info.json to database folder
-        run: |
-          copy-item gameinfo_generator/games_info.json database
-        shell: powershell
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: games_info
+          path: database/
 
       - name: Commit json files
         run: |
