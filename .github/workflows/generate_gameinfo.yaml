@@ -8,6 +8,8 @@ on:
 jobs:
   get_info:
     uses: DanTheMan827/AmiiboGamelistGenerator/.github/workflows/game_info.yml@main
+    with:
+      repo: DanTheMan827/AmiiboGamelistGenerator
 
   report:
     runs-on: windows-latest
