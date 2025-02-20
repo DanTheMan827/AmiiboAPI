@@ -7,7 +7,7 @@ on:
 
 jobs:
   get_info:
-    uses: DanTheMan827/.github/workflows/game_info.yml@main
+    uses: DanTheMan827/AmiiboGamelistGenerator/.github/workflows/game_info.yml@main
 
   report:
     runs-on: windows-latest
