@@ -1,0 +1,46 @@
+name: Scheduled Game Info Update
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  get_info:
+    uses: MrKev312/AmiiboGamelistGenerator/.github/workflows/game_info.yml@main
+    with:
+      repo: MrKev312/AmiiboGamelistGenerator
+      repo-ref: main
+
+  report:
+    runs-on: ubuntu-latest
+    needs: [get_info]
+    permissions:
+      contents: write
+      pull-requests: write
+      
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: games_info
+          path: database/
+
+      - name: Commit json files
+        shell: pwsh
+        run: |
+          git config --global user.name 'N3evin (Automated)'
+          git config --global user.email '2455104+N3evin@users.noreply.github.com'
+          git pull
+          git add -A database/games_info.json
+          git commit -m "Update game_info.json"
+          git reset --hard
+          git reset HEAD~1
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: scheduled-gameinfo-update
+          title: Update games_info.json
