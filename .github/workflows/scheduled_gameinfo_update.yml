@@ -44,3 +44,4 @@ jobs:
         with:
           branch: scheduled-gameinfo-update
           title: Update games_info.json
+          commit-message: '[Automated] Update games_info.json'
